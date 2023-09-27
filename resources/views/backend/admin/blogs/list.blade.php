@@ -1,0 +1,1 @@
+<p>this is blog list, first you may read yajra table and implement it.</p>
