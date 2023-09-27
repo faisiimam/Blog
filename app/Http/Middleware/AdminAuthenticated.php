@@ -4,8 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-
-class Is_admin
+use Illuminate\Support\Facades\Auth;
+ 
+class AdminAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -16,9 +17,13 @@ class Is_admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->input('token') !== 'my-secret-token') {
-            return redirect('home');
+        if (Auth::guard('admin')->user()) {
+            return $next($request);
         }
-        return $next($request);
+        if ($request->ajax() || $request->wantsJson()) {
+            return response('Unauthorized.', 401);
+        } else {
+            return redirect(route('admin.login'));
+        }
     }
 }
