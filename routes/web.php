@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,10 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// Route::get('/bloglist', [BlogController::class, 'list'])->name('blog.list');
+
+Route::controller(FrontendController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/singlepost', 'singlepage')->name('singlepost');
+    Route::get('/contact-us', 'contact')->name('contact.us');
+    Route::get('/blog/{id?}', 'singleblog')->name('single.blog');
 });
 
-Route::get('admin', function () {
-    return view('admin');
-});
